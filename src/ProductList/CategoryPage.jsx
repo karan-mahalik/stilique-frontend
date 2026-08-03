@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { FaHeart, FaShareAlt } from 'react-icons/fa';
 import FilterCategory from '../ProductList/FilterCategory';
-import { getFavourites, toggleFavourite } from '../Utils/favourites';
+import { getFavourites, toggleFavourite } from '../utils/favourites';
 import './CategoryPage.css';
 
 // Load all images
