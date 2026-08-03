@@ -15,25 +15,41 @@ const Login = () => {
     const navigate = useNavigate();
 const handleLogin = async (e) => {
     e.preventDefault();
-    try {
-        const response = await fetch('https://stilique-backend-production.up.railway.app/api/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-        });
 
-        const data = await response.json();
+    try {
+        const response = await fetch(
+            "https://stilique-backend-production.up.railway.app/api/auth/login",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email,
+                    password
+                })
+            }
+        );
+
+        console.log("Status:", response.status);
+
+        const text = await response.text();
+        console.log("Response:", text);
 
         if (response.ok) {
-            alert(data.message || 'Login successful');
-            localStorage.setItem('modamartUser', data.email);
-            navigate('/home');
+            const data = JSON.parse(text);
+
+            alert(data.message);
+            localStorage.setItem("modamartUser", data.email);
+
+            navigate("/home");
         } else {
-            alert(data.message || 'Login failed');
+            alert(text);
         }
+
     } catch (error) {
-        console.error('Login error:', error);
-        alert("Server error");
+        console.error("Login Error:", error);
+        alert(error.message);
     }
 };
 
