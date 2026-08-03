@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Banner.css';
 import mockData from './data/mockData';
 import { FaHeart, FaShareAlt } from 'react-icons/fa';
-import { getFavourites, toggleFavourite } from './Utils/favourites';
+import { getFavourites, toggleFavourite } from './utils/favourites';
 
 // Banner images
 import Banner4 from './assets/BannerImages/Banner4.jpg';
