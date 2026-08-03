@@ -14,7 +14,7 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <ScrollTop/>
       <Routes>
-        <Route path="*" element={<App />} />
+        <Route path="/*" element={<App />} />
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutForm />} />
