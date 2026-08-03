@@ -72,7 +72,7 @@ export const CartProvider = ({ children }) => {
 
   const fetchCart = async () => {
     try {
-      const res = await axios.get(`http://localhost:8080/api/cart/${userId}`);
+      const res = await axios.get(`https://stilique-backend-production.up.railway.app/api/cart/${userId}`);
       setCartItems(res.data);
     } catch (error) {
       console.error('Failed to fetch cart:', error);
@@ -83,12 +83,12 @@ export const CartProvider = ({ children }) => {
     try {
       const existing = cartItems.find((item) => item.productId === product.id);
       if (existing) {
-        await axios.put(`http://localhost:8080/api/cart/update`, {
+        await axios.put(`https://stilique-backend-production.up.railway.app/api/cart/update`, {
           ...existing,
           quantity: existing.quantity + 1,
         });
       } else {
-        await axios.post(`http://localhost:8080/api/cart/add`, {
+        await axios.post(`https://stilique-backend-production.up.railway.app/api/cart/add`, {
           userId,
           productId: product.id,
           title: product.title,
@@ -105,7 +105,7 @@ export const CartProvider = ({ children }) => {
 
   const removeFromCart = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/api/cart/remove/${id}`);
+      await axios.delete(`https://stilique-backend-production.up.railway.app/api/cart/remove/${id}`);
       fetchCart();
     } catch (error) {
       console.error('Error removing item:', error);
@@ -118,7 +118,7 @@ export const CartProvider = ({ children }) => {
       if (!item) return;
 
       const updatedQuantity = Math.max(1, item.quantity + delta);
-      await axios.put(`http://localhost:8080/api/cart/update`, {
+      await axios.put(`https://stilique-backend-production.up.railway.app/api/cart/update`, {
         ...item,
         quantity: updatedQuantity,
       });

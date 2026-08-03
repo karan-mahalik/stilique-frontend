@@ -40,7 +40,7 @@ const CategoryProductPage = () => {
 
       // Try to fetch from Accessories API instead of mockDataAccessories
       try {
-        const res = await fetch('http://localhost:8080/api/accessories');
+        const res = await fetch('https://stilique-backend-production.up.railway.app/api/accessories');
         const data = await res.json();
         const accessoryProduct = data.find(item => parseInt(item.id) === parseInt(id));
         if (accessoryProduct) {
@@ -54,10 +54,10 @@ const CategoryProductPage = () => {
 
       // Else try fetching from backend APIs (Men, Women, Kids, Unisex)
       const endpoints = [
-        'http://localhost:8080/api/men',
-        'http://localhost:8080/api/women',
-        'http://localhost:8080/api/kids',
-        'http://localhost:8080/api/unisex'
+        'https://stilique-backend-production.up.railway.app/api/men',
+        'https://stilique-backend-production.up.railway.app/api/women',
+        'https://stilique-backend-production.up.railway.app/api/kids',
+        'https://stilique-backend-production.up.railway.app/api/unisex'
       ];
 
       for (const url of endpoints) {

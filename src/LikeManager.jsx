@@ -161,11 +161,11 @@ const LikeManager = ({ asPage = false }) => {
       const fetchData = async () => {
         try {
           const urls = [
-            'http://localhost:8080/api/men',
-            'http://localhost:8080/api/women',
-            'http://localhost:8080/api/kids',
-            'http://localhost:8080/api/unisex',
-            'http://localhost:8080/api/accessories',
+            'https://stilique-backend-production.up.railway.app/api/men',
+            'https://stilique-backend-production.up.railway.app/api/women',
+            'https://stilique-backend-production.up.railway.app/api/kids',
+            'https://stilique-backend-production.up.railway.app/api/unisex',
+            'https://stilique-backend-production.up.railway.app/api/accessories',
           ];
           const results = await Promise.all(urls.map((url) => fetch(url).then((res) => res.json())));
           const combined = results.flat();

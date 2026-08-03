@@ -13,7 +13,7 @@ const Signup = () => {
     const handleSignup = async (e) => {
     e.preventDefault();
     try {
-        const response = await fetch('http://localhost:8080/api/auth/signup', {
+        const response = await fetch('https://stilique-backend-production.up.railway.app/api/auth/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

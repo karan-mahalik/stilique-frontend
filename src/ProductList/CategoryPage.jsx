@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import axios from "axios";
 import { FaHeart, FaShareAlt } from 'react-icons/fa';
 import FilterCategory from '../ProductList/FilterCategory';
 import { getFavourites, toggleFavourite } from '../Utils/favourites';
@@ -51,7 +52,7 @@ const CategoryPage = () => {
     pattern: [], occasion: [], embellishment: []
   });
 
-  const getProductImage = (product) => images[product.imageName] || accImages[product.image] ||'';
+  const getProductImage = (product) => images[product.imageName] || accImages[product.image] || '';
 
   const handleFilterChange = (type, value) => {
     setSelectedFilters(prev => {
@@ -78,42 +79,42 @@ const CategoryPage = () => {
     }
   };
 
-const fetchProducts = async () => {
-  setLoading(true);
+  const fetchProducts = async () => {
+    setLoading(true);
 
-  if (categoryName.toLowerCase() === 'accessories') {
+    if (categoryName.toLowerCase() === 'accessories') {
+      try {
+        const res = await fetch('https://stilique-backend-production.up.railway.app/api/accessories');
+        const data = await res.json();
+        setAllProducts(data);
+      } catch (error) {
+        console.error("Failed to fetch accessories", error);
+        setAllProducts([]);
+      } finally {
+        setLoading(false);
+      }
+      return;
+    }
+
+    const endpoints = {
+      men: 'https://stilique-backend-production.up.railway.app/api/men',
+      women: 'https://stilique-backend-production.up.railway.app/api/women',
+      kids: 'https://stilique-backend-production.up.railway.app/api/kids',
+      unisex: 'https://stilique-backend-production.up.railway.app/api/unisex'
+    };
+
     try {
-      const res = await fetch('http://localhost:8080/api/accessories');
+      const url = endpoints[categoryName.toLowerCase()];
+      const res = await fetch(url);
       const data = await res.json();
       setAllProducts(data);
     } catch (error) {
-      console.error("Failed to fetch accessories", error);
+      console.error(`Failed to fetch ${categoryName} products, error`);
       setAllProducts([]);
     } finally {
       setLoading(false);
     }
-    return;
-  }
-
-  const endpoints = {
-    men: 'http://localhost:8080/api/men',
-    women: 'http://localhost:8080/api/women',
-    kids: 'http://localhost:8080/api/kids',
-    unisex: 'http://localhost:8080/api/unisex'
   };
-
-  try {
-    const url = endpoints[categoryName.toLowerCase()];
-    const res = await fetch(url);
-    const data = await res.json();
-    setAllProducts(data);
-  } catch (error) {
-    console.error(`Failed to fetch ${categoryName} products, error`);
-    setAllProducts([]);
-  } finally {
-    setLoading(false);
-  }
-};
   const applyFilters = () => {
     let results = [...allProducts];
 
@@ -186,15 +187,15 @@ const fetchProducts = async () => {
         {['Red', 'Blue', 'Gold', 'Black', 'Pink', 'Violet', 'Lavender',
           'Brown', 'Yellow', 'Orange', 'White', 'Beige', 'Cream', 'Grey',
           'Purple', 'Peach', 'Maroon', 'Green', 'Ivory'].map(color => (
-          <label key={color}>
-            <input
-              type="checkbox"
-              checked={selectedFilters.color.includes(color)}
-              onChange={() => handleFilterChange('color', color)}
-            />
-            {color}
-          </label>
-        ))}
+            <label key={color}>
+              <input
+                type="checkbox"
+                checked={selectedFilters.color.includes(color)}
+                onChange={() => handleFilterChange('color', color)}
+              />
+              {color}
+            </label>
+          ))}
       </FilterCategory>
 
       <FilterCategory title="Size">
@@ -239,15 +240,15 @@ const fetchProducts = async () => {
       <FilterCategory title="Embellishment">
         {['Resham Work', 'Sequins Work', 'Cutdana', 'Mirror Work', 'Pearl Work',
           'Stone Work', 'Thread Work', 'Zari Work', 'Leather Work'].map(e => (
-          <label key={e}>
-            <input
-              type="checkbox"
-              checked={selectedFilters.embellishment.includes(e)}
-              onChange={() => handleFilterChange('embellishment', e)}
-            />
-            {e}
-          </label>
-        ))}
+            <label key={e}>
+              <input
+                type="checkbox"
+                checked={selectedFilters.embellishment.includes(e)}
+                onChange={() => handleFilterChange('embellishment', e)}
+              />
+              {e}
+            </label>
+          ))}
       </FilterCategory>
     </aside>
   );
@@ -274,11 +275,7 @@ const fetchProducts = async () => {
                 background: 'black', borderRadius: '50%',
                 padding: 6, fontSize: 22, cursor: 'pointer'
               }}
-              onClick={e => {
-                e.stopPropagation();
-                toggleFavourite(product.id);
-                setLikedIds(getFavourites());
-              }}
+              onClick={(e) => handleLike(e, product)}
             />
             <FaShareAlt
               className="share-icon"
@@ -302,6 +299,30 @@ const fetchProducts = async () => {
       )}
     </div>
   );
+
+
+  const handleLike = async (e, product) => {
+    console.log("Heart clicked");
+
+    e.stopPropagation();
+
+    toggleFavourite(product.id);
+    setLikedIds(getFavourites());
+
+    try {
+      await axios.post(
+        "https://stilique-backend-production.up.railway.app/api/likes",
+        {
+          userId: 1,
+          productId: product.id
+        }
+      );
+
+      console.log("Like saved");
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div className="category-page">
