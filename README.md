@@ -1,5 +1,7 @@
 # Stilique — E-commerce Frontend
 
+**🌐 Professional portfolio:** [Karan Mahalik — Data Analyst & Power BI Developer](https://karan-mahalik-portfolio.vercel.app/)
+
 A React/Vite storefront project with product browsing, filtering, product detail views, cart and checkout-related screens, account workflows and a backend API integration.
 
 **Career relevance:** Demonstrates how structured product, customer, and cart data is presented to users through an application. This is a **full-stack supporting project**, not a Power BI or SQL analytics dashboard.
